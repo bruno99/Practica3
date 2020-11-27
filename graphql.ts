@@ -26,10 +26,32 @@ mutation {
      date,
   }
 }
+              {
+     startTask(_id: "Hacer practica 3") {
+     id,
+     state: "DOING",
+     date,
+  }
+}
+                               {
+     completeTask(_id: "Hacer practica 3") {
+     id,
+     state: "DONE",
+     date,
+  }
+}
+                                 {
+     updateTask(_id: "Hacer practica 3") {
+     id: "Practica 3 hecha",
+     state: "DONE",
+     date,
+  }
+}                                
+          
    
  mutation {
  remove_task  (
-    id: "Hacer practica  3"
+    id: "Practica 3 hecha"
   ) {
     _id
     sate
