@@ -5,11 +5,30 @@ mutation {
      date,
      }
  }
- 
- 
- 
- mutation 
- remove_task { (
+{
+  gettask(_id: "Hacer practica  3") {
+     id,
+     state,
+     date,
+  }
+}
+   {
+     getTaskByDate(_date: "2020-11-27") {
+     id,
+     state,
+     date,
+  }
+}
+         {
+     getTaskByState(_date: "DOING") {
+     id,
+     state,
+     date,
+  }
+}
+   
+ mutation {
+ remove_task  (
     id: "Hacer practica  3"
   ) {
     _id
@@ -17,3 +36,4 @@ mutation {
     date
   }
 }
+
