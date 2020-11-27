@@ -2,12 +2,12 @@ const app = new Application();
 const types = gql
 
   typeTask {
-       name: String
+       id: String
        state: String
        date: Date
   }
   input TaskInput {
-       name: String
+       id: String
        state: String
        date: Date
   }
@@ -24,7 +24,7 @@ const types = gql
     Query: {
       getTask: (parent: any, args: {id:string}, context: any, info: any) => {
         return {
-          name: "Hacer Practica",
+          id: "Hacer Practica",
           state: "DOING",
           date: 
         }
@@ -63,17 +63,17 @@ await app.listen({ port: 8000 });
 
 export const TaskResolvers = {
     Query: {
-        getTask: async (parent: any, { _name }: any, context: any, info: any) => {
+        getTask: async (parent: any, { _id }: any, context: any, info: any) => {
             const taskSelect  = await task.findOne({
-                _name: {
-                  $oid:_name,
+                _id: {
+                  $oid:_id,
                 },
               });
-            const taskSelect  = await task.find({ taskName: { $eq: _name } });
+            const taskSelect  = await task.find({ taskId: { $eq: _id } });
             let allTask = await taskSelect.map((task : any)  => { return {
-                 ...task, _name:  task._name.$oid
+                 ...task, _id:  task._id.$oid
             } })
-            taskSelect._name = _name;
+            taskSelect._id = _id;
             taskSelect.task = allTask;
             return taskSelect;
         },
@@ -111,18 +111,28 @@ export const TaskResolvers = {
   },
 
     Mutation: {
-      addTask: async (parent: any, { input: { name, state, date } }: any, context: any, info: any) => {
+      addTask: async (parent: any, { input: { id, state, date } }: any, context: any, info: any) => {
         const insertTask = await task.insertOne({
-            name,
+            id,
             state,
             date,
           });
-          const taskelect  = await task.findOne({
-            _name: {
+          const taskSelect  = await task.findOne({
+            _id: {
               $oid: insertTask.$oid,
             },
           });
-          taskSelect._name = insertTask.$oid;
+          taskSelect._id = insertTask.$oid;
+         return taskSelect;
+      },
+      
+      removeTask: async (parent: any, { input: { id, state, date } }: any, context: any, info: any) => {
+            const taskSelect  = await task.findOne({
+            _id: {
+              $oid: selectTask.$oid,
+            },
+          });
+          taskSelect._id = removeTask.$oid;
          return taskSelect;
       },
 
