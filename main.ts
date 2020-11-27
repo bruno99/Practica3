@@ -26,7 +26,7 @@ const types = gql
         return {
           id: "Hacer Practica",
           state: "DOING",
-          date: 
+          date: "27/11/2020"
         }
       },
     },
@@ -78,6 +78,7 @@ export const TaskResolvers = {
             return taskSelect;
         },
       
+      
       getTaskByState: async (parent: any, { _state }: any, context: any, info: any) => {
             const taskSelect  = await task.findOne({
                 _state: {
@@ -109,6 +110,38 @@ export const TaskResolvers = {
       
 
   },
+  {
+        startTask: async (parent: any, { _id }: any, context: any, info: any) => {
+            const taskSelect  = await task.findOne({
+                _id: {
+                  $oid:_id,
+                },
+              });
+            const taskSelect  = await task.find({ taskId: { $eq: _id } });
+            let allTask = await taskSelect.map((task : any)  => { return {
+                 ...task, _id:  task._id.$oid
+            } })
+            taskSelect._id = _id;
+            taskSelect.task = allTask;
+            taskSelect.state = "DOING";
+            return { "Task started" };
+        },
+          
+        completeTask: async (parent: any, { _id }: any, context: any, info: any) => {
+            const taskSelect  = await task.findOne({
+                _id: {
+                  $oid:_id,
+                },
+              });
+            const taskSelect  = await task.find({ taskId: { $eq: _id } });
+            let allTask = await taskSelect.map((task : any)  => { return {
+                 ...task, _id:  task._id.$oid
+            } })
+            taskSelect._id = _id;
+            taskSelect.task = allTask;
+            taskSelect.state = "DONE";
+            return { "Task completed" };
+        },
 
     Mutation: {
       addTask: async (parent: any, { input: { id, state, date } }: any, context: any, info: any) => {
@@ -125,7 +158,15 @@ export const TaskResolvers = {
           taskSelect._id = insertTask.$oid;
          return taskSelect;
       },
-      
+      upadteTask: async (parent: any, { input: { id!, state!, date! } }: any, context: any, info: any) => {
+            const taskSelect  = await task.findOne({
+            _id: {
+              $oid: selectTask.$oid,
+            },
+          });
+          taskSelect._id = updateTask.$oid;
+         return { "Updated" };
+      },
       removeTask: async (parent: any, { input: { id, state, date } }: any, context: any, info: any) => {
             const taskSelect  = await task.findOne({
             _id: {
@@ -133,7 +174,7 @@ export const TaskResolvers = {
             },
           });
           taskSelect._id = removeTask.$oid;
-         return { "OK" };
+         return { "Removed" };
       },
 
   };
