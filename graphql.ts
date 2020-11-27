@@ -78,7 +78,34 @@ export const TaskResolvers = {
             return taskSelect;
         },
       
-      
+      getTaskByState: async (parent: any, { _state }: any, context: any, info: any) => {
+            const taskSelect  = await task.findOne({
+                _state: {
+                  $oid:_state,
+                },
+              });
+            const taskSelect  = await task.find({ taskState: { $eq: _state } });
+            let allTask = await taskSelect.map((task : any)  => { return {
+                 ...task, _state:  task._state.$oid
+            } })
+            taskSelect._state = _state;
+            taskSelect.task = allTask;
+            return taskSelect;
+        },
+            getTaskByDate: async (parent: any, { _date }: any, context: any, info: any) => {
+            const taskSelect  = await task.findOne({
+                _date: {
+                  $oid:_date,
+                },
+              });
+            const taskSelect  = await task.find({ taskDate: { $eq: _date } });
+            let allTask = await taskDate.map((task : any)  => { return {
+                 ...task, _date:  task._date.$oid
+            } })
+            taskSelect._date = _date;
+            taskSelect.task = allTask;
+            return taskSelect;
+        },
       
 
   },
