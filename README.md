@@ -1,1 +1,2 @@
-# Practica3
+    
+ localhost:8000/graphql 
