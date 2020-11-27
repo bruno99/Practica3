@@ -77,6 +77,9 @@ export const TaskResolvers = {
             taskSelect.task = allTask;
             return taskSelect;
         },
+      
+      
+      
 
   },
 
