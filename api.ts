@@ -3,6 +3,7 @@ import { v4 } from 'https://deno.land/std@0.74.0/uuid/mod.ts';
 import { MongoClient} from "https://deno.land/x/mongo@v0.12.1/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { Database } from "https://deno.land/x/mongo@v0.12.1/ts/database.ts";
+import { applyGraphQL, gql } from "https://deno.land/x/oak_graphql/mod.ts";
 
  
 const port = 8000;
