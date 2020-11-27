@@ -133,7 +133,7 @@ export const TaskResolvers = {
             },
           });
           taskSelect._id = removeTask.$oid;
-         return taskSelect;
+         return { "OK" };
       },
 
   };
